@@ -38,6 +38,7 @@ for s in range(8):
 
 #for holding rgb values of proper colors
 colorsList = ['#ff00ff','#8a2be2','#0000ff','#00ffff','#00ff00','#f0c700','#ff7f00','#ff0000']
+
 #for holding symbols for datapoints so that colorblind people can still tell data apart
 markersList = ['v','<','^','>','d','s','o','x']
 
@@ -80,10 +81,10 @@ for starNum in range(8):#for each of the stars
     
 starNum = 0
 for starNum in range(8):
-#file name, read mode for 'r'
     i = 1
     tstep = 0
-    
+
+    #I don't really know exactly what these two lines do, they're from the professors code, and I didn't mess with them very much
     dataframe_hr = pd.read_table(stellarModel[starNum],delim_whitespace=True,names=np.arange(14))
     nrows = np.shape(dataframe_hr)[0]
     
@@ -198,6 +199,8 @@ largeX = 15
 largeY = 15
 
 #graphing consolidated temperature(T), luminosity(L), habitable zones (D), and HR lines (HR)
+
+#graph formatting
 figT,axT = plt.subplots()
 axT.set_title('Temperature over Time for all Stars in Set')
 axT.set_xlabel('Time (seconds)')
@@ -236,14 +239,15 @@ axHR.invert_xaxis()#HR diagrams are weird in terms of axis
 figHR.set_size_inches(largeX,largeY)
 
 starNum = 0
-for starNum in range(8):
+for starNum in range(8):#adding all of the data to the big graphs
     axT.plot(t_array_hr[starNum],T_array_hr[starNum],label=starName[starNum],color=colorsList[starNum],linewidth=1,marker=markersList[starNum])
     axL.plot(t_array_hr[starNum],L_array_hr[starNum],label=starName[starNum],color=colorsList[starNum],linewidth=1,marker=markersList[starNum])
     axD.plot(t_array_hr[starNum],Di_array_hr[starNum],label=starName[starNum],color=colorsList[starNum],linestyle='dashed',linewidth=1,marker=markersList[starNum])
     axD.plot(t_array_hr[starNum],Do_array_hr[starNum],color=colorsList[starNum],linestyle='dotted',linewidth=1,marker=markersList[starNum])
     axD.fill_between(t_array_hr[starNum],Di_array_hr[starNum],Do_array_hr[starNum], alpha=.1, linewidth=0,color=colorsList[starNum])
     axHR.plot(T_array_hr[starNum],L_array_hr[starNum],label=starName[starNum],color=colorsList[starNum],linewidth=1,marker=markersList[starNum])
-    
+
+#more graph formatting
 axT.legend(loc='upper right')
 axT.grid(True,'both','both')
 axT.yaxis.set_minor_locator(AutoMinorLocator(6))
